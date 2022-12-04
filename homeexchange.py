@@ -3,7 +3,22 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 from openpyxl import Workbook
+from requests_html import HTMLSession
+s=HTMLSession()
 
+#function to get the html data from urls
+
+def get_url(url):
+    r=s.get(url)
+    soup=BeautifulSoup(r.text, 'html.parser')
+    return soup
+def getnextpages(url):
+    page=soup.find('ul', {'class': 'pages'})
+    if not page.find('li', {'class': "class="active" data-page='70' "}):
+        url = 'https://www.homeexchange.com' + str(page.find('li', {'class': "class="active" data-page='70'"}).find('a')['href']) 
+        return url
+    else: 
+        return 
 properties = []
 
 wb = Workbook()
@@ -13,10 +28,7 @@ ws.append(["Title", "Rating","Capacity", "Location", "Price", "Number of Reviews
 
 
 
-for page in range(2,6):
-    #notice the URL has no page number on the first page. So its best to use url for page two. 
-    # "https://www.homeexchange.com/search-v2/everywhere?bounds=-85%2C-180%2C85%2C180&place_id=false"- old url
-    #now we have to loop through page=2
+for link in links:
     url = ("https://www.homeexchange.com/search-v2/everywhere?bounds=-85%2C-180%2C85%2C180&place_id=false&page=2") 
    
     driver = webdriver.Chrome(ChromeDriverManager().install())
