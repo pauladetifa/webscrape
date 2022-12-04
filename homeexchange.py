@@ -13,8 +13,12 @@ ws.append(["Title", "Rating","Capacity", "Location", "Price", "Number of Reviews
 
 
 
-for x in range(1,30):
-    url = ("https://www.homeexchange.com/search-v2/everywhere?bounds=-85%2C-180%2C85%2C180&place_id=false")
+for page in range(2,6):
+    #notice the URL has no page number on the first page. So its best to use url for page two. 
+    # "https://www.homeexchange.com/search-v2/everywhere?bounds=-85%2C-180%2C85%2C180&place_id=false"- old url
+    #now we have to loop through page=2
+    url = ("https://www.homeexchange.com/search-v2/everywhere?bounds=-85%2C-180%2C85%2C180&place_id=false&page=2") 
+   
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.get(url + "&page="+str(x))
 
